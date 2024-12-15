@@ -1,0 +1,140 @@
+# Contact Book Application
+def display_menu():
+    """Display the main menu."""
+    print("\nContact Book Menu:")
+    print("1. Add Contact")
+    print("2. View Contact List")
+    print("3. Search Contact")
+    print("4. Update Contact")
+    print("5. Delete Contact")
+    print("6. Exit")
+
+# Initialize an empty contact book
+contact_book = {}
+
+def add_contact():
+    """Add a new contact."""
+    name = input("Enter name: ").strip()
+    if name in contact_book:
+        print("A contact with this name already exists.")
+        return
+    phone = input("Enter phone number: ").strip()
+    email = input("Enter email: ").strip()
+    address = input("Enter address: ").strip()
+    contact_book[name] = {
+        "Phone": phone,
+        "Email": email,
+        "Address": address
+    }
+    print(f"Contact '{name}' added successfully!")
+
+def view_contacts():
+    """View all contacts."""
+    if not contact_book:
+        print("Contact book is empty.")
+        return
+    print("\nContact List:")
+    for name, details in contact_book.items():
+        print(f"Name: {name}, Phone: {details['Phone']}")
+
+def search_contact():
+    """Search for a contact by name or phone."""
+    search_term = input("Enter name or phone number to search: ").strip()
+    found = False
+    for name, details in contact_book.items():
+        if search_term.lower() in name.lower() or search_term == details["Phone"]:
+            print(f"\nFound Contact:")
+            print(f"Name: {name}")
+            print(f"Phone: {details['Phone']}")
+            print(f"Email: {details['Email']}")
+            print(f"Address: {details['Address']}")
+            found = True
+    if not found:
+        print("No contact found with the given name or phone number.")
+
+def update_contact():
+    """Update an existing contact."""
+    name = input("Enter the name of the contact to update: ").strip()
+    if name not in contact_book:
+        print("Contact not found.")
+        return
+    print(f"Updating contact for '{name}'. Leave fields blank to keep existing information.")
+    phone = input(f"Enter new phone number (current: {contact_book[name]['Phone']}): ").strip()
+    email = input(f"Enter new email (current: {contact_book[name]['Email']}): ").strip()
+    address = input(f"Enter new address (current: {contact_book[name]['Address']}): ").strip()
+    if phone:
+        contact_book[name]["Phone"] = phone
+    if email:
+        contact_book[name]["Email"] = email
+    if address:
+        contact_book[name]["Address"] = address
+    print(f"Contact '{name}' updated successfully!")
+
+def update_contact():
+    """Update an existing contact."""
+    name = input("Enter the name of the contact to update: ").strip()
+    if name not in contact_book:
+        print("Contact not found.")
+        return
+    print(f"Updating contact for '{name}'. Leave fields blank to keep existing information.")
+    phone = input(f"Enter new phone number (current: {contact_book[name]['Phone']}): ").strip()
+    email = input(f"Enter new email (current: {contact_book[name]['Email']}): ").strip()
+    address = input(f"Enter new address (current: {contact_book[name]['Address']}): ").strip()
+    if phone:
+        contact_book[name]["Phone"] = phone
+    if email:
+        contact_book[name]["Email"] = email
+    if address:
+        contact_book[name]["Address"] = address
+    print(f"Contact '{name}' updated successfully!")
+
+def update_contact():
+    """Update an existing contact."""
+    name = input("Enter the name of the contact to update: ").strip()
+    if name not in contact_book:
+        print("Contact not found.")
+        return
+    print(f"Updating contact for '{name}'. Leave fields blank to keep existing information.")
+    phone = input(f"Enter new phone number (current: {contact_book[name]['Phone']}): ").strip()
+    email = input(f"Enter new email (current: {contact_book[name]['Email']}): ").strip()
+    address = input(f"Enter new address (current: {contact_book[name]['Address']}): ").strip()
+    if phone:
+        contact_book[name]["Phone"] = phone
+    if email:
+        contact_book[name]["Email"] = email
+    if address:
+        contact_book[name]["Address"] = address
+    print(f"Contact '{name}' updated successfully!")
+
+def delete_contact():
+    """Delete a contact."""
+    name = input("Enter the name of the contact to delete: ").strip()
+    if name in contact_book:
+        del contact_book[name]
+        print(f"Contact '{name}' deleted successfully!")
+    else:
+        print("Contact not found.")
+
+def main():
+    """Main function to run the contact book."""
+    while True:
+        display_menu()
+        choice = input("Enter your choice (1-6): ").strip()
+        if choice == "1":
+            add_contact()
+        elif choice == "2":
+            view_contacts()
+        elif choice == "3":
+            search_contact()
+        elif choice == "4":
+            update_contact()
+        elif choice == "5":
+            delete_contact()
+        elif choice == "6":
+            print("Exiting Contact Book. Goodbye!")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+# Run the contact book application
+main()
