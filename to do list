@@ -1,0 +1,124 @@
+import os
+
+# Try importing pickle or handle unavailability
+try:
+    import pickle
+    PICKLE_AVAILABLE = True
+except ImportError:
+    PICKLE_AVAILABLE = False
+    print("Warning: 'pickle' module is not available. Data persistence will not work.")
+
+# File to store tasks
+TASKS_FILE = "tasks.pkl"
+
+# Load tasks from file
+def load_tasks():
+    if PICKLE_AVAILABLE and os.path.exists(TASKS_FILE):
+        with open(TASKS_FILE, "rb") as file:
+            return pickle.load(file)
+    return []
+
+# Save tasks to file
+def save_tasks(tasks):
+    if PICKLE_AVAILABLE:
+        with open(TASKS_FILE, "wb") as file:
+            pickle.dump(tasks, file)
+    else:
+        print("Data persistence is disabled as 'pickle' is not available.")
+
+# Display tasks
+def view_tasks(tasks):
+    if not tasks:
+        print("\nNo tasks available.")
+        return
+    print("\nYour To-Do List:")
+    for i, task in enumerate(tasks, 1):
+        status = "✔" if task["completed"] else "✘"
+        print(f"{i}. [{status}] {task['description']}")
+
+# Add a new task
+def add_task(tasks):
+    description = input("\nEnter the task description: ").strip()
+    if description:
+        tasks.append({"description": description, "completed": False})
+        print("Task added successfully!")
+    else:
+        print("Task description cannot be empty.")
+
+# Update an existing task
+def update_task(tasks):
+    view_tasks(tasks)
+    try:
+        task_number = int(input("\nEnter the task number to update: "))
+        if 1 <= task_number <= len(tasks):
+            new_description = input("Enter the new description: ").strip()
+            if new_description:
+                tasks[task_number - 1]["description"] = new_description
+                print("Task updated successfully!")
+            else:
+                print("Description cannot be empty.")
+        else:
+            print("Invalid task number.")
+    except ValueError:
+        print("Please enter a valid number.")
+
+# Mark a task as completed
+def complete_task(tasks):
+    view_tasks(tasks)
+    try:
+        task_number = int(input("\nEnter the task number to mark as completed: "))
+        if 1 <= task_number <= len(tasks):
+            tasks[task_number - 1]["completed"] = True
+            print("Task marked as completed!")
+        else:
+            print("Invalid task number.")
+    except ValueError:
+        print("Please enter a valid number.")
+
+# Delete a task
+def delete_task(tasks):
+    view_tasks(tasks)
+    try:
+        task_number = int(input("\nEnter the task number to delete: "))
+        if 1 <= task_number <= len(tasks):
+            removed_task = tasks.pop(task_number - 1)
+            print(f"Task '{removed_task['description']}' deleted successfully!")
+        else:
+            print("Invalid task number.")
+    except ValueError:
+        print("Please enter a valid number.")
+
+# Main menu
+def main():
+    tasks = load_tasks()
+    while True:
+        print("\n--- To-Do List Menu ---")
+        print("1. View tasks")
+        print("2. Add task")
+        print("3. Update task")
+        print("4. Mark task as completed")
+        print("5. Delete task")
+        print("6. Exit")
+        try:
+            choice = int(input("Choose an option: "))
+            if choice == 1:
+                view_tasks(tasks)
+            elif choice == 2:
+                add_task(tasks)
+            elif choice == 3:
+                update_task(tasks)
+            elif choice == 4:
+                complete_task(tasks)
+            elif choice == 5:
+                delete_task(tasks)
+            elif choice == 6:
+                save_tasks(tasks)
+                print("Goodbye!")
+                break
+            else:
+                print("Invalid option. Please try again.")
+        except ValueError:
+            print("Please enter a valid number.")
+
+if __name__ == "__main__":
+    main()
